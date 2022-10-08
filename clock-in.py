@@ -143,7 +143,8 @@ class DecodeError(Exception):
     pass
 
 
-def main(username, password):
+def main():
+    username, password = 22151313,'zhangjiangtao444'
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
