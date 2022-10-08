@@ -26,7 +26,7 @@ jobs:
         # python3 -m pip install ddddocr
       - name: Clock In
         env:
-          ACCOUNT: ${{ secrets.ACCOUNT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+          ACCOUNT: 22151313
+          PASSWORD: zhangjiangtao444
         run: |
           python3 clock-in.py ACCOUNT{PASSWORD}
