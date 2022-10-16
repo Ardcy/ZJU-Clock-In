@@ -32,14 +32,21 @@ class DaKa(object):
     BASE_URL = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
     SAVE_URL = "https://healthreport.zju.edu.cn/ncov/wap/default/save"
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, tmp_username, tmp_password):
         self.username = username
         self.password = password
+        
+        self.tmp_username = tmp_username
+        self.tmp_password = tmp_username
+        
         # self.login_url = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex"
         # self.base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
         # self.save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save"
         self.sess = requests.Session()
         self.sess.keep_alive = False
+        
+        self.tmp_sess = requests.Session()
+        self.tmp_sess.keep_alive = False
 
     def login(self):
         """Login to ZJU platform"""
@@ -64,10 +71,40 @@ class DaKa(object):
             raise LoginError('登录失败，请核实账号密码重新登录')
         return self.sess
 
+    def tmp_login(self):
+        """Login to ZJU platform"""
+        res = self.tmp_sess.get(self.LOGIN_URL)
+        execution = re.search(
+            'name="execution" value="(.*?)"', res.text).group(1)
+        res = self.tmp_sess.get(
+            url='https://zjuam.zju.edu.cn/cas/v2/getPubKey').json()
+        n, e = res['modulus'], res['exponent']
+        encrypt_password = self._rsa_encrypt(self.tmp_password, e, n)
+
+        data = {
+            'username': self.tmp_username,
+            'password': encrypt_password,
+            'execution': execution,
+            '_eventId': 'submit'
+        }
+        res = self.tmp_sess.post(url=self.LOGIN_URL, data=data)
+
+        # check if login successfully
+        if '统一身份认证' in res.content.decode():
+            raise LoginError('登录失败，请核实账号密码重新登录')
+        return self.tmp_sess
+    
     def post(self):
         """Post the hitcard info"""
         res = self.sess.post(self.SAVE_URL, data=self.info, headers=self.headers)
         return json.loads(res.text)
+    
+    def tmp_post(self):
+        """Post the hitcard info"""
+        res = self.tmp_sess.post(self.SAVE_URL, data=self.info, headers=self.headers)
+        return json.loads(res.text)
+    
+    
 
     def get_date(self):
         """Get current date"""
@@ -143,7 +180,7 @@ class DecodeError(Exception):
     pass
 
 
-def main(username, password):
+def main(username, password,tmp_username,tmp_password):
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
@@ -153,7 +190,7 @@ def main(username, password):
           datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     print("🚌 打卡任务启动")
 
-    dk = DaKa(username, password)
+    dk = DaKa(username, password,tmp_username,tmp_password)
 
     print("登录到浙大统一身份认证平台...")
     try:
@@ -187,14 +224,12 @@ if __name__ == "__main__":
     print(sys.argv)
     username = sys.argv[1]
     password = sys.argv[2]
+    username1 = sys.argv[3]
+    password1 = sys.argv[4]
     try:
-        main(username, password)
+        main(username, password,username1,password1)
     except Exception:
         exit(1)
     print(sys.argv)
-    username = sys.argv[3]
-    password = sys.argv[4]
-    try:
-        main(username, password)
-    except Exception:
-        exit(1)
+    
+   
