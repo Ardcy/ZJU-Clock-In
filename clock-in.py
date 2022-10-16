@@ -101,7 +101,7 @@ class DaKa(object):
     
     def tmp_post(self):
         """Post the hitcard info"""
-        res = self.tmp_sess.post(self.SAVE_URL, data=self.info, headers=self.headers)
+        res = self.tmp_sess.post(self.SAVE_URL, data=self.info1, headers=self.headers)
         return json.loads(res.text)
     
     
@@ -153,7 +153,11 @@ class DaKa(object):
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
         self.info = new_info
-        
+        import copy 
+        new1_info = copy.deepcopy(new_info)
+        new1_info['name'] = "陈逸晨"
+        new1_info['number'] = self.tmp_username
+        self.info1 = new1_info
         return new_info
 
     def _rsa_encrypt(self, password_str, e_str, M_str):
@@ -214,6 +218,16 @@ def main(username, password,tmp_username,tmp_password):
     print('正在为您打卡打卡打卡')
     try:
         res = dk.post()
+        if str(res['e']) == '0':
+            print('已为您打卡成功！')
+            print(res)
+        else:
+            print(res['m'])
+    except Exception:
+        print('数据提交失败')
+        raise Exception
+    try:
+        res = dk.tmp_post()
         if str(res['e']) == '0':
             print('已为您打卡成功！')
             print(res)
