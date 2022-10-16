@@ -185,7 +185,6 @@ def main(username,password):
 
 
 if __name__ == "__main__":
-if __name__ == "__main__":
     print(sys.argv)
     username = sys.argv[1]
     password = sys.argv[2]
