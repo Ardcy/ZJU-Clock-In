@@ -116,6 +116,8 @@ class DaKa(object):
         if not html:
             res = self.sess.get(self.BASE_URL, headers=self.headers)
             html = res.content.decode()
+            res1 = self.tmp_sess.get(self.BASE_URL, headers=self.headers)
+            html1 = res1.content.decode()
             # print('html' + html)
         try:
             old_infos = re.findall(r'oldInfo: ({[^\n]+})', html)
@@ -126,6 +128,12 @@ class DaKa(object):
 
             new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', html)[0])
             new_id = new_info_tmp['id']
+            
+            new_info_tmp1 = json.loads(re.findall(r'def = ({[^\n]+})', html1)[0])
+            new_id1 = new_info_tmp1['id']
+            name1 = re.findall(r'realname: "([^\"]+)",', html1)[0]
+            number1 = re.findall(r"number: '([^\']+)',", html1)[0]
+            
             name = re.findall(r'realname: "([^\"]+)",', html)[0]
             number = re.findall(r"number: '([^\']+)',", html)[0]
         except IndexError:
@@ -155,8 +163,10 @@ class DaKa(object):
         self.info = new_info
         import copy 
         new1_info = copy.deepcopy(new_info)
-        new1_info['name'] = "陈逸晨"
-        new1_info['number'] = self.tmp_username
+        new1_info['id'] = new_id1
+        new1_info['name'] = name1
+        new1_info['number'] = number1
+        print(name1)
         self.info1 = new1_info
         return new_info
 
