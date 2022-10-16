@@ -103,7 +103,7 @@ class DaKa(object):
         new_info["date"] = self.get_date()
         new_info["created"] = round(time.time())
         new_info["address"] = "浙江省杭州市西湖区"
-        new_info["area"] = "浙江省杭州市西湖区"
+        new_info["area"] = "浙江省 杭州市 西湖区"
         new_info["province"] = new_info["area"].split(' ')[0]
         new_info["city"] = new_info["area"].split(' ')[1]
         # form change
@@ -143,8 +143,7 @@ class DecodeError(Exception):
     pass
 
 
-def main(username,password):
- 
+def main(username, password):
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
