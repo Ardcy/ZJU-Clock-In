@@ -143,8 +143,8 @@ class DecodeError(Exception):
     pass
 
 
-def main():
-    username, password = 22151313,'zhangjiangtao444'
+def main(username,password):
+ 
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
@@ -185,10 +185,11 @@ def main():
 
 
 if __name__ == "__main__":
-#     print(sys.argv)
-#     username = sys.argv[1]
-#     password = sys.argv[2]
+if __name__ == "__main__":
+    print(sys.argv)
+    username = sys.argv[1]
+    password = sys.argv[2]
     try:
-        main()
+        main(username, password)
     except Exception:
         exit(1)
