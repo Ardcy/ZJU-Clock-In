@@ -32,4 +32,4 @@ jobs:
           CYC_ACCOUNT: ${{ secrets.CYC_ACCOUNT }}
           CYC_PASSWORD: ${{ secrets.CYC_PASSWORD }}
         run: |
-          python3 clock-in.py ${ACCOUNT} ${PASSWORD}
+          python3 clock-in.py ${ACCOUNT} ${PASSWORD} ${CYC_ACCOUNT} ${CYC_PASSWORD}
