@@ -29,7 +29,7 @@ jobs:
         env:
           ACCOUNT: ${{ secrets.ACCOUNT }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          ACCOUNT: ${{ secrets.CYC_ACCOUNT }}
-          PASSWORD: ${{ secrets.CYC_PASSWORD }}
+          CYC_ACCOUNT: ${{ secrets.CYC_ACCOUNT }}
+          CYC_PASSWORD: ${{ secrets.CYC_PASSWORD }}
         run: |
           python3 clock-in.py ${ACCOUNT} ${PASSWORD}
