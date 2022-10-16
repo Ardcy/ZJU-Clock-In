@@ -185,15 +185,15 @@ def main(username, password):
 
 if __name__ == "__main__":
     print(sys.argv)
-    username = sys.argv[1]
-    password = sys.argv[2]
+    username = sys.argv[3]
+    password = sys.argv[4]
     try:
         main(username, password)
     except Exception:
         exit(1)
     print(sys.argv)
-    username = sys.argv[3]
-    password = sys.argv[4]
+    username = sys.argv[1]
+    password = sys.argv[2]
     try:
         main(username, password)
     except Exception:
