@@ -195,6 +195,7 @@ def main(username, password,tmp_username,tmp_password):
     print("登录到浙大统一身份认证平台...")
     try:
         dk.login()
+        dk.tmp_login()
         print("已登录到浙大统一身份认证平台")
     except Exception as err:
         print(str(err))
@@ -213,6 +214,7 @@ def main(username, password,tmp_username,tmp_password):
         res = dk.post()
         if str(res['e']) == '0':
             print('已为您打卡成功！')
+            print(res)
         else:
             print(res['m'])
     except Exception:
