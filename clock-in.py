@@ -187,7 +187,8 @@ if __name__ == "__main__":
     print(sys.argv)
     username = sys.argv[3]
     password = sys.argv[4]
-    print(username,password)
+    import copy
+    print(copy.deepcopy(username),copy.deepcopy(password))
     try:
         main(username, password)
     except Exception:
