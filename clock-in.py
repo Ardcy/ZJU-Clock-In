@@ -254,10 +254,10 @@ if __name__ == "__main__":
     password = sys.argv[2]
     username1 = sys.argv[3]
     password1 = sys.argv[4]
-    try:
-        main(username, password,username1,password1)
-    except Exception:
-        exit(1)
-    print(sys.argv)
+#     try:
+#         main(username, password,username1,password1)
+#     except Exception:
+#         exit(1)
+#     print(sys.argv)
     
    
